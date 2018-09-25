@@ -1,0 +1,29 @@
+{
+  "name": "get_a_meal",
+  "version": "1.0.0",
+  "description": "this program will let you to find a meal you want to eat and check ingredients",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muchamateusz/es6_recipe_fabric.git"
+  },
+  "keywords": [
+    "forkify"
+  ],
+  "author": "m.mucha2",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muchamateusz/es6_recipe_fabric/issues"
+  },
+  "homepage": "https://github.com/muchamateusz/es6_recipe_fabric#readme",
+  "devDependencies": {
+    "webpack": "^4.20.0"
+  },
+  "dependencies": {}
+}
