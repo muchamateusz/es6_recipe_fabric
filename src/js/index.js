@@ -17,10 +17,14 @@ const searchHandler = async() => {
     if (query) {
         // 2) add new search object to state
         state.search = new Search(query);
+
         // 3) prepare UI to get new results data
+        searchView.clearInput();
+        searchView.clearResults();
 
         // 4) search for recipes
         await state.search.getResult();
+
         // 5) render results on UI
         searchView.renderResults(state.search.recipes_list);
     }
