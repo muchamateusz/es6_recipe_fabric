@@ -1,6 +1,7 @@
 import Search from "./models/Search";
+import Recipe from "./models/Recipe";
 import * as searchView from './views/searchView';
-import { elements } from './views/base';
+import { elements, renderSpinner, hideSpinner } from './views/base';
 /******* GLOBAL STATE OF THIS APP **********
  *
  * SEARCH OBJECT
@@ -21,10 +22,10 @@ const searchHandler = async() => {
         // 3) prepare UI to get new results data
         searchView.clearInput();
         searchView.clearResults();
-
+        renderSpinner(elements.searchResults);
         // 4) search for recipes
         await state.search.getResult();
-
+        hideSpinner();
         // 5) render results on UI
         searchView.renderResults(state.search.recipes_list);
     }
@@ -33,3 +34,18 @@ elements.searchForm.addEventListener("submit", e => {
     e.preventDefault();
     searchHandler();
 });
+
+
+elements.searchResultsPages.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-inline');
+    if (btn) {
+        const goToPage = parseInt(btn.dataset.goto, 10);
+        searchView.clearResults();
+        searchView.renderResults(state.search.recipes_list, goToPage);
+    }
+})
+
+
+const r = new Recipe(46956);
+r.getRecipe();
+console.log(r);
