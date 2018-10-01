@@ -12,7 +12,7 @@ export const clearResults = () => {
 const renderRecipe = recipe => {
     const markup = `
   <li>
-    <a class="likes__link" href="${recipe.recipe_id}">
+    <a class="likes__link" href="#${recipe.recipe_id}">
         <figure class="likes__fig">
             <img src=${recipe.image_url} alt=${recipe.title}>
         </figure>
