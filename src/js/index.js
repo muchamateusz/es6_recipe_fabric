@@ -1,6 +1,7 @@
 import Search from "./models/Search";
 import Recipe from "./models/Recipe";
 import * as searchView from "./views/searchView";
+import * as recipeView from "./views/recipeView";
 import { elements, renderSpinner, hideSpinner } from "./views/base";
 /******* GLOBAL STATE OF THIS APP **********
  *
@@ -28,9 +29,14 @@ const searchHandler = async () => {
       await state.search.getResult();
       hideSpinner();
       // 5) render results on UI
-      searchView.renderResults(state.search.recipes_list);
-    } catch (err) {
-      alert("Something went wrong with the searcg ...", err);
+      console.log(state.search.recipes_list);
+      if (state.search.recipes_list) {
+        searchView.renderResults(state.search.recipes_list);
+      } else {
+        console.error("Error processing search!");
+      }
+    } catch (error) {
+      console.error("Error processing search!", err);
       hideSpinner();
     }
   }
@@ -55,7 +61,7 @@ const controlRecipe = async () => {
   console.log(id);
   if (id) {
     // prepare ui
-
+    renderSpinner(elements.recipe);
     // create model
     state.recipe = new Recipe(id);
     try {
@@ -66,9 +72,10 @@ const controlRecipe = async () => {
       state.recipe.calcTime();
       state.recipe.calcServings();
       // render to ui
-      console.log(state.recipe);
+      hideSpinner();
+      recipeView.renderRecipe(state.recipe);
     } catch (err) {
-      alert("Error processing recipe!", err);
+      console.error("Error processing recipe!", err);
     }
   }
 };

@@ -10,14 +10,22 @@ export default class Recipe {
       const result = await axios(
         `${proxy}http://food2fork.com/api/get?key=${key}&rId=${this.id}`
       );
-      this.title = result.data.recipe.title;
-      this.publisher = result.data.recipe.publisher;
-      this.author = result.data.recipe.author;
-      this.img = result.data.recipe.image_url;
-      this.url = result.data.recipe.source_url;
-      this.ingredients = result.data.recipe.ingredients;
+      if (result.data.error) {
+        alert(
+          result.data.error === "limit"
+            ? "You have reached limit of your daily requests"
+            : result.data.error
+        );
+      } else {
+        this.title = result.data.recipe.title;
+        this.publisher = result.data.recipe.publisher;
+        this.author = result.data.recipe.author;
+        this.img = result.data.recipe.image_url;
+        this.url = result.data.recipe.source_url;
+        this.ingredients = result.data.recipe.ingredients;
+      }
     } catch (error) {
-      alert("error :", error);
+      alert(error);
     }
   }
 
@@ -40,7 +48,11 @@ export default class Recipe {
       "teaspoons",
       "teaspoon",
       "cups",
-      "pounds"
+      "pounds",
+      "jars",
+      "jar",
+      "packages",
+      "package"
     ];
     const unitsShort = [
       "tbsp",
@@ -50,11 +62,15 @@ export default class Recipe {
       "tsp",
       "tsp",
       "cup",
-      "pound"
+      "pound",
+      "jars",
+      "jar",
+      "pckgs",
+      "pckg"
     ];
 
     const newIngredient = this.ingredients.map(el => {
-      // uniform units0
+      // uniform units
       let ingredient = el.toLowerCase();
 
       unitsLong.forEach((unit, i) => {
@@ -66,37 +82,39 @@ export default class Recipe {
 
       // parse ingredients into count unit and ingredient
       const arrIng = ingredient.split(" ");
-      const unitIndex = arrIng.findIntex(el2 => units.includes(el2));
+      const unitIndex = arrIng.findIndex(el2 => unitsShort.includes(el2));
+      console.log("unitIndex :", unitIndex);
       let objIng;
       if (unitIndex > -1) {
         const arrCount = arrIng.slice(0, unitIndex);
+
+        let count;
+
         if (arrCount.length === 1) {
-            count = arrIng[0].replace('-', '+');
+          count = eval(arrIng[0].replace("-", "+"));
         } else {
-            count = eval.arrIng.slice(0, unitIndex).join('+');
+          count = eval(arrIng.slice(0, unitIndex).join("+"));
         }
 
         objIng = {
-            count,
-            unit: arrIng[unitIndex],
-            ingredient: arrIng.slice(1).join()
-        }
-
-
+          count: Math.round(count * 10) / 10,
+          unit: arrIng[unitIndex],
+          ingredient: arrIng.slice(1).join()
+        };
       } else if (parseInt(arrIng[0], 10)) {
-          objIng = {
-              count: parseInt(arrIng[0], 10),
-              unit:'',
-              ingredient: arrIng.slice(1).join(' ')
-          }
+        objIng = {
+          count: parseInt(arrIng[0], 10),
+          unit: "",
+          ingredient: arrIng.slice(1).join(" ")
+        };
       } else if (unitIndex === -1) {
         objIng = {
-            count: 1,
-            unit: '',
-            ingredient
-        }
+          count: 1,
+          unit: "",
+          ingredient
+        };
       }
-      console.log('objIng :', objIng);
+      console.log("objIng :", objIng);
       return objIng;
     });
     this.ingredients = newIngredient;
