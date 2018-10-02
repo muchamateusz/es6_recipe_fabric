@@ -12,6 +12,11 @@ const createIngredient = ingredient => `
     </div>
   </li>
 `;
+
+export const clearRecipe = () => {
+    elements.recipe.innerHTML = '';
+}
+
 export const renderRecipe = recipe => {
   const markup = `
   <figure class="recipe__fig">

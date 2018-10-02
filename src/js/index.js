@@ -61,6 +61,7 @@ const controlRecipe = async () => {
   console.log(id);
   if (id) {
     // prepare ui
+    recipeView.clearRecipe();
     renderSpinner(elements.recipe);
     // create model
     state.recipe = new Recipe(id);
