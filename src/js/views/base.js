@@ -5,6 +5,9 @@ export const elements = {
     searchResults: document.querySelector('.results'),
     searchResultsPages: document.querySelector('.results__pages'),
     recipe: document.querySelector('.recipe'),
+    shopping: document.querySelector('.shopping__list'),
+    likesMenu: document.querySelector('.likes__field'),
+    likesList: document.querySelector('.likes__list'),
 };
 
 export const elementStrings = {
@@ -26,7 +29,5 @@ export const renderSpinner = parent => {
 
 export const hideSpinner = () => {
     const loader = document.querySelector(`.${elementStrings.loader}`);
-    if (loader) {
-        loader.parentElement.removeChild(loader);
-    }
+    if (loader) loader.parentElement.removeChild(loader);
 };
